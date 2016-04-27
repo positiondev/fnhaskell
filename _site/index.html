@@ -30,7 +30,7 @@
 </ul>
 <p>The name comes from the fact that fn emphasizes functions (over monads), where all necessary data is passed via function arguments, and control flow is mediated by return values.</p>
 <h2 id="example-app">Example app</h2>
-<p>Paste the following into a file, chmod and run! (Requires <a href="http://docs.haskellstack.org/en/stable/README/">stack</a></p>
+<p>Paste the following into a file, chmod and run! (Requires <a href="http://docs.haskellstack.org/en/stable/README/">stack</a>)</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">#!/usr/bin/env stack</span>
 <span class="co">-- stack --resolver lts-5.5 --install-ghc runghc --package fn --package warp</span>
 <span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
@@ -68,5 +68,14 @@ echoH _ msg <span class="fu">=</span> okText <span class="fu">$</span> <span cla
         <div id="footer">
           Developed at <a href="http://positiondev.com/">Position Development</a>
         </div>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-77024058-1', 'auto');
+          ga('send', 'pageview');
+        </script>
     </body>
 </html>

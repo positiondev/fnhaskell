@@ -12,7 +12,7 @@ The name comes from the fact that fn emphasizes functions (over monads), where a
 
 ## Example app
 
-Paste the following into a file, chmod and run! (Requires [stack](http://docs.haskellstack.org/en/stable/README/)
+Paste the following into a file, chmod and run! (Requires [stack](http://docs.haskellstack.org/en/stable/README/))
 
 ```haskell
 #!/usr/bin/env stack
