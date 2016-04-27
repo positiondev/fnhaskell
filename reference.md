@@ -1,6 +1,7 @@
-[fn](http://hackage.haskell.org/package/fn)
+## Hackage documentation
 
-[fn-extra](http://hackage.haskell.org/package/fn-extra)
+- [fn](http://hackage.haskell.org/package/fn): the core web framework
+- [fn-extra](http://hackage.haskell.org/package/fn-extra): helpers for Digestive Functors and Heist
 
 ## Recommended Pairings
 

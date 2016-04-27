@@ -10,4 +10,42 @@ fn lets you write web code that just looks like normal Haskell code.
 
 The name comes from the fact that fn emphasizes functions (over monads), where all necessary data is passed via function arguments, and control flow is mediated by return values.
 
-POSITION DEV
+## Example app
+
+Paste the following into a file, chmod and run! (Requires [stack](http://docs.haskellstack.org/en/stable/README/)
+
+```haskell
+#!/usr/bin/env stack
+-- stack --resolver lts-5.5 --install-ghc runghc --package fn --package warp
+{-# LANGUAGE OverloadedStrings #-}
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import Network.Wai (Response)
+import Network.Wai.Handler.Warp (run)
+import Web.Fn
+
+data Ctxt = Ctxt { _req :: FnRequest }
+instance RequestContext Ctxt where
+  getRequest = _req
+  setRequest c r = c { _req = r }
+
+initializer :: IO Ctxt
+initializer = return (Ctxt defaultFnRequest)
+
+main :: IO ()
+main = do ctxt <- initializer
+          run 3000 $ toWAI ctxt site
+
+site :: Ctxt -> IO Response
+site ctxt = route ctxt [ end                        ==> indexH
+                       , path "echo" // param "msg" ==> echoH
+                       , path "echo" // segment     ==> echoH
+                       ]
+                  `fallthrough` notFoundText "Page not found."
+
+indexH :: Ctxt -> IO (Maybe Response)
+indexH _ = okText "Try visiting /echo?msg=hello or /echo/hello"
+
+echoH :: Ctxt -> Text -> IO (Maybe Response)
+echoH _ msg = okText $ "Echoing '" <> msg <> "'."
+```

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>fn - a functional web framework</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="../">fn - a functional web framework</a>
+            </div>
+            <div id="navigation">
+                <a href="../">home</a>
+                <a href="../tutorial">tutorial</a>
+                <a href="../reference.html">reference</a>
+                <a href="http://www.github.com/positiondev/fn">source</a>
+            </div>
+        </div>
+
+        <div id="content">
+
+            <p>This is a tutorial for the Haskell web framework Fn. It’s designed to give web developers an idea of how Haskell web development works. It won’t teach you <em>everything</em> you need to know, but I hope it’ll give you a place to start and an idea of just how fun it is!</p>
+<p>To get started, you need to know <a href="https://git-scm.com/">how to use git</a> and some <a href="http://cli.learncodethehardway.org/book/">command line basics</a>.</p>
+<p>You also want to know a little Haskell:</p>
+<ul>
+<li>What are types and functions in Haskell?</li>
+<li>How do you define a data type?</li>
+<li>How do you make a data type an instance of a type class?</li>
+<li>What the Maybe type?</li>
+<li>How do you do stuff “in IO”?</li>
+</ul>
+<p><a href="http://learnyouahaskell.com/">Learn you a Haskell</a> is one way to learn these basics, and it’s free online! You can also try the <a href="https://en.wikibooks.org/wiki/Haskell">Haskell wikibook</a>.</p>
+<p>When you’re ready to get started, clone this repository:</p>
+<p><code>git clone https://github.com/emhoracek/fntutorial.git</code></p>
+<p>You’ll also need to install Stack, which installs the Haskell compiler and all the libraries and modules you’ll need. Just follow the directions for your operating system <a href="http://docs.haskellstack.org/en/stable/README.html">here</a>.</p>
+<p>Make sure “~/.local/bin” is in your $PATH, so your OS can find everything Stack installs.</p>
+<p>Then change to the <code>fntutorial</code> directory, and run <code>stack build</code>. This will download and install everything! It will take a very long time if you haven’t used Stack before. Be patient. Have some tea/coffee/beverage of choice.</p>
+<p>(If you have any problems building, let me know so I can help!)</p>
+<p>Once the build is finished, run <code>stack exec site1</code> and visit <a href="http://localhost:8000">localhost:3000</a> to see a “Hello world” Haskell site running on your machine! Type CTRL-C to quit the server when you’re done.</p>
+<p>Each site’s source code contains a part of the tutorial. Read each “*.lhs&quot; file’s source to learn how to make Haskell sites with Fn, WAI, and Warp!</p>
+<ul>
+<li>“Site1.lhs” - <code>stack exec site1</code> – a “Hello world!” site</li>
+<li>“Site2.lhs” - <code>stack exec site2</code> – how do routes and handlers work?</li>
+<li>“Site3.lhs” - <code>stack exec site3</code> – using Lucid for HTML responses</li>
+</ul>
+<p><a href="http://fnhaskell.com/tutorial/Site1.html">Start the tutorial!</a></p>
+        </div>
+        <div id="footer">
+          Developed at <a href="http://positiondev.com/">Position Development</a>
+        </div>
+    </body>
+</html>

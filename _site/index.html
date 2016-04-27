@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>fn - a functional web framework</title>
+        <link rel="stylesheet" type="text/css" href="./css/default.css" />
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="./">fn - a functional web framework</a>
+            </div>
+            <div id="navigation">
+                <a href="./">home</a>
+                <a href="./tutorial">tutorial</a>
+                <a href="./reference.html">reference</a>
+                <a href="http://www.github.com/positiondev/fn">source</a>
+            </div>
+        </div>
+
+        <div id="content">
+
+            <p>fn lets you write web code that just looks like normal Haskell code.</p>
+<ul>
+<li><p>An application has some “context”, which must contain a Request, but can contain other data as well, like database connection pools, etc. This context will be passed to each of your handlers, updated with the current HTTP Request.</p></li>
+<li><p>Routes are declared to capture parameters and/or segments of the url, and then routed to handler functions that have the appropriate number and type of arguments. These functions return IO (Maybe Response), where Nothing indicates to Fn that you want it to keep looking for matching routes.</p></li>
+<li><p>All handlers just use plain old IO, which means it is easy to call them from GHCi, forkIO, etc.</p></li>
+<li><p>All of this is a small wrapper around the WAI interface, so you have the flexilibility to do anything you need to do with HTTP.</p></li>
+</ul>
+<p>The name comes from the fact that fn emphasizes functions (over monads), where all necessary data is passed via function arguments, and control flow is mediated by return values.</p>
+<h2 id="example-app">Example app</h2>
+<p>Paste the following into a file, chmod and run! (Requires <a href="http://docs.haskellstack.org/en/stable/README/">stack</a></p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">#!/usr/bin/env stack</span>
+<span class="co">-- stack --resolver lts-5.5 --install-ghc runghc --package fn --package warp</span>
+<span class="ot">{-# LANGUAGE OverloadedStrings #-}</span>
+<span class="kw">import </span><span class="dt">Data.Monoid</span> ((&lt;&gt;))
+<span class="kw">import </span><span class="dt">Data.Text</span> (<span class="dt">Text</span>)
+<span class="kw">import </span><span class="dt">Network.Wai</span> (<span class="dt">Response</span>)
+<span class="kw">import </span><span class="dt">Network.Wai.Handler.Warp</span> (run)
+<span class="kw">import </span><span class="dt">Web.Fn</span>
+
+<span class="kw">data</span> <span class="dt">Ctxt</span> <span class="fu">=</span> <span class="dt">Ctxt</span> { _<span class="ot">req ::</span> <span class="dt">FnRequest</span> }
+<span class="kw">instance</span> <span class="dt">RequestContext</span> <span class="dt">Ctxt</span> <span class="kw">where</span>
+  getRequest <span class="fu">=</span> _req
+  setRequest c r <span class="fu">=</span> c { _req <span class="fu">=</span> r }
+
+<span class="ot">initializer ::</span> <span class="dt">IO</span> <span class="dt">Ctxt</span>
+initializer <span class="fu">=</span> return (<span class="dt">Ctxt</span> defaultFnRequest)
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span> ctxt <span class="ot">&lt;-</span> initializer
+          run <span class="dv">3000</span> <span class="fu">$</span> toWAI ctxt site
+
+<span class="ot">site ::</span> <span class="dt">Ctxt</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Response</span>
+site ctxt <span class="fu">=</span> route ctxt [ end                        <span class="fu">==&gt;</span> indexH
+                       , path <span class="st">&quot;echo&quot;</span> <span class="fu">//</span> param <span class="st">&quot;msg&quot;</span> <span class="fu">==&gt;</span> echoH
+                       , path <span class="st">&quot;echo&quot;</span> <span class="fu">//</span> segment     <span class="fu">==&gt;</span> echoH
+                       ]
+                  <span class="ot">`fallthrough`</span> notFoundText <span class="st">&quot;Page not found.&quot;</span>
+
+<span class="ot">indexH ::</span> <span class="dt">Ctxt</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Maybe</span> <span class="dt">Response</span>)
+indexH _ <span class="fu">=</span> okText <span class="st">&quot;Try visiting /echo?msg=hello or /echo/hello&quot;</span>
+
+<span class="ot">echoH ::</span> <span class="dt">Ctxt</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Maybe</span> <span class="dt">Response</span>)
+echoH _ msg <span class="fu">=</span> okText <span class="fu">$</span> <span class="st">&quot;Echoing '&quot;</span> <span class="fu">&lt;&gt;</span> msg <span class="fu">&lt;&gt;</span> <span class="st">&quot;'.&quot;</span></code></pre></div>
+        </div>
+        <div id="footer">
+          Developed at <a href="http://positiondev.com/">Position Development</a>
+        </div>
+    </body>
+</html>

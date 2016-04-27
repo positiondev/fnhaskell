@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>fn - a functional web framework</title>
+        <link rel="stylesheet" type="text/css" href="./css/default.css" />
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="./">fn - a functional web framework</a>
+            </div>
+            <div id="navigation">
+                <a href="./">home</a>
+                <a href="./tutorial">tutorial</a>
+                <a href="./reference.html">reference</a>
+                <a href="http://www.github.com/positiondev/fn">source</a>
+            </div>
+        </div>
+
+        <div id="content">
+
+            <h2 id="hackage-documentation">Hackage documentation</h2>
+<ul>
+<li><a href="http://hackage.haskell.org/package/fn">fn</a>: the core web framework</li>
+<li><a href="http://hackage.haskell.org/package/fn-extra">fn-extra</a>: helpers for Digestive Functors and Heist</li>
+</ul>
+<h2 id="recommended-pairings">Recommended Pairings</h2>
+<p>Part of the design of <code>Fn</code> is that you won’t have a suite of <code>fn-foo</code> libraries that generally serve to adapt the functions from <code>foo</code> to the monad transformer stack of the web framework of choice (we do have an <code>fn-extra</code> package that has code to adapt libraries that have a different style from <code>fn</code>, especially when they are libraries we use a lot!). Still, it’s helpful to know what are common tools that are well designed and tested, so here are a list (those marked with <code>[*]</code> are used in the example application included in the repository):</p>
+<ul>
+<li><a href="http://hackage.haskell.org/package/warp">warp</a><code>[*]</code>: perhaps obvious, but you will need to choose an HTTP server to use with your <code>Fn</code> application, and <code>warp</code> is the defacto standard for applications that use the <code>WAI</code> interface that <code>Fn</code> does.</li>
+<li><a href="http://hackage.haskell.org/package/heist">heist</a><code>[*]</code>: a wonderful templating system that is both really simple (the templates are just html) and powerful (any html tag can be bound to run haskell code). This is a library that has adaptors in <code>fn-extra</code>, as we wanted to have splices (those haskell-bound html tags) that were normal functions, rather than monadic.</li>
+<li><a href="http://hackage.haskell.org/package/heist">digestive-functors</a><code>[*]</code>: a library for writing composable forms (which handle data validation/conversions). This library has an adaptor in <code>fn-extra</code>, because there isn’t a working library based on plain WAI (the one that exists implements form paths in a way that is incompatible with how the rest of the digestive functors family works, so, for example, you can’t combine it with <code>digestive-functors-heist</code>.)</li>
+<li><a href="https://hackage.haskell.org/package/postgresql-simple">postgresql-simple</a><code>[*]</code>: a well designed interface to PostgreSQL; ofter the lower level way to interact with the database (setting up connections, etc), if you use a higher level, safer abstraction like <code>opaleye</code> (below) for actual queries. Use it with <a href="https://hackage.haskell.org/package/resource-pool">resource-pool</a><code>[*]</code> to have it manage many connections.</li>
+<li><a href="https://hackage.haskell.org/package/opaleye">opaleye</a>: a type-safe composable way to write database queries against PostgreSQL.</li>
+<li><a href="https://hackage.haskell.org/package/hedis">hedis</a><code>[*]</code>: a full-featured client for the key-value store Redis.</li>
+<li><a href="https://hackage.haskell.org/package/logging">logging</a><code>[*]</code>: a simple library for writing log messages, which allow you to change the logging level and suppress some subset of messages.</li>
+<li><a href="https://hackage.haskell.org/package/hspec">hspec</a><code>[*]</code>: a full-featured testing framework. Use with <a href="https://hackage.haskell.org/package/hspec-wai">hspec-wai</a><code>[*]</code> - though the latter could use some work to make it do everything it needs to!</li>
+<li><a href="https://hackage.haskell.org/package/wai-session">wai-session</a><code>[*]</code>: Combine with something like <a href="https://hackage.haskell.org/package/wai-session-clientsession">wai-session-clientsession</a><code>[*]</code> to store session data in encrypted cookies (like, who a user is logged in as).</li>
+<li><a href="http://hackage.haskell.org/package/dotenv">dotenv</a>: Loads a file full of <code>KEY=value</code> lines into environment variables. Convention is to have a <code>.env</code> file, not checked into version control, with development configuration variables (like database server, username, password, api keys, etc), so that in production (where the <code>.env</code> file is missing) you can have the real environment variables set by whatever mechanism you have (Heroku uses this as it’s primary mechanism, for example).</li>
+</ul>
+        </div>
+        <div id="footer">
+          Developed at <a href="http://positiondev.com/">Position Development</a>
+        </div>
+    </body>
+</html>
